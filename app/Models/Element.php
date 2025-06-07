@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Element extends Model
 {
     //
-
+    protected $fillable = [
+        'title',
+        'description',
+        'classification',
+        'imagen'
+    ];
 }
