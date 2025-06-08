@@ -13,4 +13,9 @@ class Element extends Model
         'classification',
         'imagen'
     ];
+
+    public function category() {
+
+        return $this->belongsTo(Category::class);
+    }
 }

@@ -11,4 +11,9 @@ class Category extends Model
         'title',
         'icon'
     ];
+
+    public function elements(){
+
+        return $this->hasMany(Element::class);
+    }
 }
