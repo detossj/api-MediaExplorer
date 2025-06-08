@@ -51,4 +51,17 @@ class User extends Authenticatable
 
         return $this->hasMany(Category::class);
     }
+
+    public function elements()
+    {
+        return $this->hasManyThrough(
+            \App\Models\Element::class,
+            \App\Models\Category::class,
+            'user_id',      // Foreign key in categories table
+            'category_id',  // Foreign key in elements table
+            'id',           // Local key in users table
+            'id'            // Local key in categories table
+        );
+    }
+
 }

@@ -8,28 +8,30 @@ use App\Models\Element;
 class ElementController extends Controller
 {
     /**
-     * Lista todos los elementos
+     * Lista todos los elementos del usuario autenticado
+     * @authenticated
+     * @header Authorization Bearer {token}
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Element::all());
+        $userId = $request->user()->id;
+
+        $elements = Element::whereHas('category', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
+
+        return response()->json($elements);
     }
 
     /**
-     * Muestra un elemento por ID
-     */
-    public function show($id)
-    {
-        $element = Element::find($id);
-        if (!$element) {
-            return response()->json(['message' => 'Elemento no encontrado'], 404);
-        }
-
-        return response()->json($element);
-    }
-
-    /**
-     * Crea un nuevo elemento
+     * Crea un nuevo elemento para el usuario autenticado
+     * @authenticated
+     * @header Authorization Bearer {token}
+     * @bodyParam title string required
+     * @bodyParam description string optional
+     * @bodyParam classification integer required
+     * @bodyParam image string optional
+     * @bodyParam category_id integer required
      */
     public function store(Request $request)
     {
@@ -41,38 +43,34 @@ class ElementController extends Controller
             'category_id'   => 'required|integer|exists:categories,id',
         ]);
 
-        $element = Element::create($validated);
+        // Crea el elemento asociado al usuario
+        $element = $request->user()->elements()->create($validated);
         return response()->json($element, 201);
     }
 
     /**
-     * Actualiza un elemento existente
+     * Muestra un elemento específico del usuario
+     * @authenticated
+     * @header Authorization Bearer {token}
      */
-    public function update(Request $request, $id)
+    public function show(Request $request, $id)
     {
-        $element = Element::find($id);
+        $element = $request->user()->elements()->find($id);
         if (!$element) {
             return response()->json(['message' => 'Elemento no encontrado'], 404);
         }
 
-        $validated = $request->validate([
-            'title'         => 'required|string|max:255',
-            'description'   => 'nullable|string',
-            'classification'=> 'required|integer',
-            'image'         => 'nullable|string',
-            'category_id'   => 'required|integer|exists:categories,id',
-        ]);
-
-        $element->update($validated);
         return response()->json($element);
     }
 
     /**
-     * Elimina un elemento
+     * Elimina un elemento del usuario autenticado
+     * @authenticated
+     * @header Authorization Bearer {token}
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $element = Element::find($id);
+        $element = $request->user()->elements()->find($id);
         if (!$element) {
             return response()->json(['message' => 'Elemento no encontrado'], 404);
         }
