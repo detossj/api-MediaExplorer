@@ -9,6 +9,8 @@ class CategoryController extends Controller
 {
     /**
      * Lista las categorías del usuario autenticado
+     * @authenticated
+     * @header Authorization Bearer {token}
      */
     public function index(Request $request)
     {
@@ -18,6 +20,8 @@ class CategoryController extends Controller
 
     /**
      * Crea una nueva categoría para el usuario autenticado
+     * @authenticated
+     * @header Authorization Bearer {token}
      * @bodyParam title string required
      * @bodyParam icon string optional
      */
@@ -34,6 +38,8 @@ class CategoryController extends Controller
 
     /**
      * Muestra una categoría específica del usuario
+     * @authenticated
+     * @header Authorization Bearer {token}
      */
     public function show(Request $request, $id)
     {
@@ -46,26 +52,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Actualiza una categoría del usuario autenticado
-     */
-    public function update(Request $request, $id)
-    {
-        $category = $request->user()->categories()->find($id);
-        if (!$category) {
-            return response()->json(['message' => 'Categoría no encontrada'], 404);
-        }
-
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'icon'  => 'nullable|string',
-        ]);
-
-        $category->update($validated);
-        return response()->json($category);
-    }
-
-    /**
      * Elimina una categoría del usuario autenticado
+     * @authenticated
+     * @header Authorization Bearer {token}
      */
     public function destroy(Request $request, $id)
     {

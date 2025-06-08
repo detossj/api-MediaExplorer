@@ -5,6 +5,166 @@ description: ''
 endpoints:
   -
     httpMethods:
+      - GET
+    uri: api/documentation
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Handles the API request and renders the Swagger documentation view.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 500
+        content: |-
+          {
+              "message": "Server Error"
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/oauth2-callback
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Handles the OAuth2 callback and retrieves the required file for the redirect.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |
+          <!doctype html>
+          <html lang="en-US">
+          <head>
+              <title>Swagger UI: OAuth2 Redirect</title>
+          </head>
+          <body>
+          <script>
+              'use strict';
+              function run () {
+                  var oauth2 = window.opener.swaggerUIRedirectOauth2;
+                  var sentState = oauth2.state;
+                  var redirectUrl = oauth2.redirectUrl;
+                  var isValid, qp, arr;
+
+                  if (/code|token|error/.test(window.location.hash)) {
+                      qp = window.location.hash.substring(1).replace('?', '&');
+                  } else {
+                      qp = location.search.substring(1);
+                  }
+
+                  arr = qp.split("&");
+                  arr.forEach(function (v,i,_arr) { _arr[i] = '"' + v.replace('=', '":"') + '"';});
+                  qp = qp ? JSON.parse('{' + arr.join() + '}',
+                          function (key, value) {
+                              return key === "" ? value : decodeURIComponent(value);
+                          }
+                  ) : {};
+
+                  isValid = qp.state === sentState;
+
+                  if ((
+                    oauth2.auth.schema.get("flow") === "accessCode" ||
+                    oauth2.auth.schema.get("flow") === "authorizationCode" ||
+                    oauth2.auth.schema.get("flow") === "authorization_code"
+                  ) && !oauth2.auth.code) {
+                      if (!isValid) {
+                          oauth2.errCb({
+                              authId: oauth2.auth.name,
+                              source: "auth",
+                              level: "warning",
+                              message: "Authorization may be unsafe, passed state was changed in server. The passed state wasn't returned from auth server."
+                          });
+                      }
+
+                      if (qp.code) {
+                          delete oauth2.state;
+                          oauth2.auth.code = qp.code;
+                          oauth2.callback({auth: oauth2.auth, redirectUrl: redirectUrl});
+                      } else {
+                          let oauthErrorMsg;
+                          if (qp.error) {
+                              oauthErrorMsg = "["+qp.error+"]: " +
+                                  (qp.error_description ? qp.error_description+ ". " : "no accessCode received from the server. ") +
+                                  (qp.error_uri ? "More info: "+qp.error_uri : "");
+                          }
+
+                          oauth2.errCb({
+                              authId: oauth2.auth.name,
+                              source: "auth",
+                              level: "error",
+                              message: oauthErrorMsg || "[Authorization failed]: no accessCode received from the server."
+                          });
+                      }
+                  } else {
+                      oauth2.callback({auth: oauth2.auth, token: qp, isValid: isValid, redirectUrl: redirectUrl});
+                  }
+                  window.close();
+              }
+
+              if (document.readyState !== 'loading') {
+                  run();
+              } else {
+                  document.addEventListener('DOMContentLoaded', function () {
+                      run();
+                  });
+              }
+          </script>
+          </body>
+          </html>
+        headers:
+          content-type: 'text/html; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
       - POST
     uri: api/register
     metadata:
@@ -200,65 +360,16 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Se obtienen todas las categorias'
+      title: 'Lista las categorías del usuario autenticado'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {token}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/categories/{id}'
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Se obtiene una categoria por su id'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the category.'
-        required: true
-        example: consequatur
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanUrlParameters:
-      id: consequatur
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -289,11 +400,12 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
+      title: 'Crea una nueva categoría para el usuario autenticado'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {token}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -304,7 +416,7 @@ endpoints:
       title:
         name: title
         description: ''
-        required: false
+        required: true
         example: consequatur
         type: string
         enumValues: []
@@ -313,13 +425,13 @@ endpoints:
         custom: []
       icon:
         name: icon
-        description: ''
+        description: optional
         required: false
         example: consequatur
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
     cleanBodyParameters:
       title: consequatur
@@ -334,18 +446,71 @@ endpoints:
     custom: []
   -
     httpMethods:
-      - PUT
+      - GET
     uri: 'api/categories/{id}'
     metadata:
       groupName: Endpoints
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Se actualiza una categoria'
+      title: 'Muestra una categoría específica del usuario'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the category.'
+        required: true
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: consequatur
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'api/categories/{id}'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Actualiza una categoría del usuario autenticado'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {token}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -366,9 +531,9 @@ endpoints:
     bodyParameters:
       title:
         name: title
-        description: ''
-        required: false
-        example: consequatur
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: vmqeopfuudtdsufvyvddq
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -382,10 +547,10 @@ endpoints:
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
     cleanBodyParameters:
-      title: consequatur
+      title: vmqeopfuudtdsufvyvddq
       icon: consequatur
     fileParameters: []
     responses: []
@@ -404,11 +569,12 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Se elimina una categoria'
+      title: 'Elimina una categoría del usuario autenticado'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {token}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -445,7 +611,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Se obtienen todas los elementos'
+      title: 'Lista todos los elementos'
       description: ''
       authenticated: false
       custom: []
@@ -454,56 +620,6 @@ endpoints:
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/elements/{id}'
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Se obtiene un elemento por su id'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the element.'
-        required: true
-        example: consequatur
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanUrlParameters:
-      id: consequatur
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -534,7 +650,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
+      title: 'Crea un nuevo elemento'
       description: ''
       authenticated: false
       custom: []
@@ -548,9 +664,9 @@ endpoints:
     bodyParameters:
       title:
         name: title
-        description: ''
-        required: false
-        example: consequatur
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: vmqeopfuudtdsufvyvddq
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -564,12 +680,12 @@ endpoints:
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
       classification:
         name: classification
         description: ''
-        required: false
+        required: true
         example: 17
         type: integer
         enumValues: []
@@ -584,12 +700,12 @@ endpoints:
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
       category_id:
         name: category_id
-        description: ''
-        required: false
+        description: 'The <code>id</code> of an existing record in the categories table.'
+        required: true
         example: 17
         type: integer
         enumValues: []
@@ -597,7 +713,7 @@ endpoints:
         nullable: false
         custom: []
     cleanBodyParameters:
-      title: consequatur
+      title: vmqeopfuudtdsufvyvddq
       description: 'Dolores dolorum amet iste laborum eius est dolor.'
       classification: 17
       image: consequatur
@@ -612,14 +728,65 @@ endpoints:
     custom: []
   -
     httpMethods:
-      - PUT
+      - GET
     uri: 'api/elements/{id}'
     metadata:
       groupName: Endpoints
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Se actualiza un elemento'
+      title: 'Muestra un elemento por ID'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the element.'
+        required: true
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: consequatur
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'api/elements/{id}'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Actualiza un elemento existente'
       description: ''
       authenticated: false
       custom: []
@@ -644,9 +811,9 @@ endpoints:
     bodyParameters:
       title:
         name: title
-        description: ''
-        required: false
-        example: consequatur
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: vmqeopfuudtdsufvyvddq
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -660,12 +827,12 @@ endpoints:
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
       classification:
         name: classification
         description: ''
-        required: false
+        required: true
         example: 17
         type: integer
         enumValues: []
@@ -680,12 +847,12 @@ endpoints:
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
       category_id:
         name: category_id
-        description: ''
-        required: false
+        description: 'The <code>id</code> of an existing record in the categories table.'
+        required: true
         example: 17
         type: integer
         enumValues: []
@@ -693,7 +860,7 @@ endpoints:
         nullable: false
         custom: []
     cleanBodyParameters:
-      title: consequatur
+      title: vmqeopfuudtdsufvyvddq
       description: 'Dolores dolorum amet iste laborum eius est dolor.'
       classification: 17
       image: consequatur
@@ -715,7 +882,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Se elimina un elemento'
+      title: 'Elimina un elemento'
       description: ''
       authenticated: false
       custom: []
