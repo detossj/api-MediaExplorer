@@ -11,7 +11,8 @@ class Element extends Model
         'title',
         'description',
         'classification',
-        'imagen'
+        'image',
+        'category_id'
     ];
 
     public function category() {
