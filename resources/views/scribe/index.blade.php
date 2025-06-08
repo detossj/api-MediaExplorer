@@ -72,34 +72,34 @@
                 </li>
                                     <ul id="tocify-subheader-endpoints" class="tocify-subheader">
                                                     <li class="tocify-item level-2" data-unique="endpoints-GETapi-categories">
-                                <a href="#endpoints-GETapi-categories">GET api/categories</a>
+                                <a href="#endpoints-GETapi-categories">Se obtienen todas las categorias</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-categories--id-">
-                                <a href="#endpoints-GETapi-categories--id-">GET api/categories/{id}</a>
+                                <a href="#endpoints-GETapi-categories--id-">Se obtiene una categoria por su id</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-POSTapi-categories">
                                 <a href="#endpoints-POSTapi-categories">POST api/categories</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-PUTapi-categories--id-">
-                                <a href="#endpoints-PUTapi-categories--id-">PUT api/categories/{id}</a>
+                                <a href="#endpoints-PUTapi-categories--id-">Se actualiza una categoria</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-DELETEapi-categories--id-">
-                                <a href="#endpoints-DELETEapi-categories--id-">DELETE api/categories/{id}</a>
+                                <a href="#endpoints-DELETEapi-categories--id-">Se elimina una categoria</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-elements">
-                                <a href="#endpoints-GETapi-elements">GET api/elements</a>
+                                <a href="#endpoints-GETapi-elements">Se obtienen todas los elementos</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-elements--id-">
-                                <a href="#endpoints-GETapi-elements--id-">GET api/elements/{id}</a>
+                                <a href="#endpoints-GETapi-elements--id-">Se obtiene un elemento por su id</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-POSTapi-elements">
                                 <a href="#endpoints-POSTapi-elements">POST api/elements</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-PUTapi-elements--id-">
-                                <a href="#endpoints-PUTapi-elements--id-">PUT api/elements/{id}</a>
+                                <a href="#endpoints-PUTapi-elements--id-">Se actualiza un elemento</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-DELETEapi-elements--id-">
-                                <a href="#endpoints-DELETEapi-elements--id-">DELETE api/elements/{id}</a>
+                                <a href="#endpoints-DELETEapi-elements--id-">Se elimina un elemento</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -135,7 +135,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
     
 
-                                <h2 id="endpoints-GETapi-categories">GET api/categories</h2>
+                                <h2 id="endpoints-GETapi-categories">Se obtienen todas las categorias</h2>
 
 <p>
 </p>
@@ -259,7 +259,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-GETapi-categories--id-">GET api/categories/{id}</h2>
+                    <h2 id="endpoints-GETapi-categories--id-">Se obtiene una categoria por su id</h2>
 
 <p>
 </p>
@@ -410,7 +410,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <pre><code class="language-bash">curl --request POST \
     "http://localhost/api/categories" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+    --data "{
+    \"title\": \"consequatur\",
+    \"icon\": \"consequatur\"
+}"
+</code></pre></div>
 
 
 <div class="javascript-example">
@@ -423,9 +428,15 @@ const headers = {
     "Accept": "application/json",
 };
 
+let body = {
+    "title": "consequatur",
+    "icon": "consequatur"
+};
+
 fetch(url, {
     method: "POST",
     headers,
+    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -501,9 +512,32 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="title"                data-endpoint="POSTapi-categories"
+               value="consequatur"
+               data-component="body">
+    <br>
+<p>Example: <code>consequatur</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>icon</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="icon"                data-endpoint="POSTapi-categories"
+               value="consequatur"
+               data-component="body">
+    <br>
+<p>Example: <code>consequatur</code></p>
+        </div>
+        </form>
 
-                    <h2 id="endpoints-PUTapi-categories--id-">PUT api/categories/{id}</h2>
+                    <h2 id="endpoints-PUTapi-categories--id-">Se actualiza una categoria</h2>
 
 <p>
 </p>
@@ -518,7 +552,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <pre><code class="language-bash">curl --request PUT \
     "http://localhost/api/categories/consequatur" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+    --data "{
+    \"title\": \"consequatur\",
+    \"icon\": \"consequatur\"
+}"
+</code></pre></div>
 
 
 <div class="javascript-example">
@@ -531,9 +570,15 @@ const headers = {
     "Accept": "application/json",
 };
 
+let body = {
+    "title": "consequatur",
+    "icon": "consequatur"
+};
+
 fetch(url, {
     method: "PUT",
     headers,
+    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -621,9 +666,32 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>The ID of the category. Example: <code>consequatur</code></p>
             </div>
-                    </form>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="title"                data-endpoint="PUTapi-categories--id-"
+               value="consequatur"
+               data-component="body">
+    <br>
+<p>Example: <code>consequatur</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>icon</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="icon"                data-endpoint="PUTapi-categories--id-"
+               value="consequatur"
+               data-component="body">
+    <br>
+<p>Example: <code>consequatur</code></p>
+        </div>
+        </form>
 
-                    <h2 id="endpoints-DELETEapi-categories--id-">DELETE api/categories/{id}</h2>
+                    <h2 id="endpoints-DELETEapi-categories--id-">Se elimina una categoria</h2>
 
 <p>
 </p>
@@ -743,7 +811,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-GETapi-elements">GET api/elements</h2>
+                    <h2 id="endpoints-GETapi-elements">Se obtienen todas los elementos</h2>
 
 <p>
 </p>
@@ -867,7 +935,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-GETapi-elements--id-">GET api/elements/{id}</h2>
+                    <h2 id="endpoints-GETapi-elements--id-">Se obtiene un elemento por su id</h2>
 
 <p>
 </p>
@@ -1018,7 +1086,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <pre><code class="language-bash">curl --request POST \
     "http://localhost/api/elements" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+    --data "{
+    \"title\": \"consequatur\",
+    \"description\": \"Dolores dolorum amet iste laborum eius est dolor.\",
+    \"classification\": 17,
+    \"image\": \"consequatur\",
+    \"category_id\": 17
+}"
+</code></pre></div>
 
 
 <div class="javascript-example">
@@ -1031,9 +1107,18 @@ const headers = {
     "Accept": "application/json",
 };
 
+let body = {
+    "title": "consequatur",
+    "description": "Dolores dolorum amet iste laborum eius est dolor.",
+    "classification": 17,
+    "image": "consequatur",
+    "category_id": 17
+};
+
 fetch(url, {
     method: "POST",
     headers,
+    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -1109,9 +1194,65 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="title"                data-endpoint="POSTapi-elements"
+               value="consequatur"
+               data-component="body">
+    <br>
+<p>Example: <code>consequatur</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="description"                data-endpoint="POSTapi-elements"
+               value="Dolores dolorum amet iste laborum eius est dolor."
+               data-component="body">
+    <br>
+<p>Example: <code>Dolores dolorum amet iste laborum eius est dolor.</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>classification</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="classification"                data-endpoint="POSTapi-elements"
+               value="17"
+               data-component="body">
+    <br>
+<p>Example: <code>17</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>image</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="image"                data-endpoint="POSTapi-elements"
+               value="consequatur"
+               data-component="body">
+    <br>
+<p>Example: <code>consequatur</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>category_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="category_id"                data-endpoint="POSTapi-elements"
+               value="17"
+               data-component="body">
+    <br>
+<p>Example: <code>17</code></p>
+        </div>
+        </form>
 
-                    <h2 id="endpoints-PUTapi-elements--id-">PUT api/elements/{id}</h2>
+                    <h2 id="endpoints-PUTapi-elements--id-">Se actualiza un elemento</h2>
 
 <p>
 </p>
@@ -1126,7 +1267,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <pre><code class="language-bash">curl --request PUT \
     "http://localhost/api/elements/consequatur" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+    --data "{
+    \"title\": \"consequatur\",
+    \"description\": \"Dolores dolorum amet iste laborum eius est dolor.\",
+    \"classification\": 17,
+    \"image\": \"consequatur\",
+    \"category_id\": 17
+}"
+</code></pre></div>
 
 
 <div class="javascript-example">
@@ -1139,9 +1288,18 @@ const headers = {
     "Accept": "application/json",
 };
 
+let body = {
+    "title": "consequatur",
+    "description": "Dolores dolorum amet iste laborum eius est dolor.",
+    "classification": 17,
+    "image": "consequatur",
+    "category_id": 17
+};
+
 fetch(url, {
     method: "PUT",
     headers,
+    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -1229,9 +1387,65 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>The ID of the element. Example: <code>consequatur</code></p>
             </div>
-                    </form>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="title"                data-endpoint="PUTapi-elements--id-"
+               value="consequatur"
+               data-component="body">
+    <br>
+<p>Example: <code>consequatur</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="description"                data-endpoint="PUTapi-elements--id-"
+               value="Dolores dolorum amet iste laborum eius est dolor."
+               data-component="body">
+    <br>
+<p>Example: <code>Dolores dolorum amet iste laborum eius est dolor.</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>classification</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="classification"                data-endpoint="PUTapi-elements--id-"
+               value="17"
+               data-component="body">
+    <br>
+<p>Example: <code>17</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>image</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="image"                data-endpoint="PUTapi-elements--id-"
+               value="consequatur"
+               data-component="body">
+    <br>
+<p>Example: <code>consequatur</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>category_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="category_id"                data-endpoint="PUTapi-elements--id-"
+               value="17"
+               data-component="body">
+    <br>
+<p>Example: <code>17</code></p>
+        </div>
+        </form>
 
-                    <h2 id="endpoints-DELETEapi-elements--id-">DELETE api/elements/{id}</h2>
+                    <h2 id="endpoints-DELETEapi-elements--id-">Se elimina un elemento</h2>
 
 <p>
 </p>
