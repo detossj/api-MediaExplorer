@@ -8,81 +8,76 @@ use App\Models\Element;
 class ElementController extends Controller
 {
     /**
-     * Se obtienen todas los elementos
-     * @return \Illuminate\Http\JsonResponse
+     * Lista todos los elementos
      */
-    public function get() {
-
-        $elements = Element::all();
-        return response()->json($elements);
+    public function index()
+    {
+        return response()->json(Element::all());
     }
 
     /**
-     * Se obtiene un elemento por su id
-     * @param int id
-     * @return \Illuminate\Http\JsonResponse
+     * Muestra un elemento por ID
      */
-    public function getById($id) {
-
+    public function show($id)
+    {
         $element = Element::find($id);
-        if($element){
-            return response()->json($element);
+        if (!$element) {
+            return response()->json(['message' => 'Elemento no encontrado'], 404);
         }
-        else {
-            return response()->json(['message' => 'Element not find'], 404);
-        }
+
+        return response()->json($element);
     }
 
     /**
-     * @bodyParam title string
-     * @bodyParam description string
-     * @bodyParam classification int
-     * @bodyParam image string
-     * @bodyParam category_id int
-     * @return \Illuminate\Http\JsonResponse
+     * Crea un nuevo elemento
      */
-    public function create(Request $request) {
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title'         => 'required|string|max:255',
+            'description'   => 'nullable|string',
+            'classification'=> 'required|integer',
+            'image'         => 'nullable|string',
+            'category_id'   => 'required|integer|exists:categories,id',
+        ]);
 
-        $element = Element::create($request->all());
+        $element = Element::create($validated);
         return response()->json($element, 201);
     }
 
     /**
-     * Se actualiza un elemento
-     * @bodyParam title string
-     * @bodyParam description string
-     * @bodyParam classification int
-     * @bodyParam image string
-     * @bodyParam category_id int
-     * @return \Illuminate\Http\JsonResponse
+     * Actualiza un elemento existente
      */
-    public function update(Request $request, $id) {
-
+    public function update(Request $request, $id)
+    {
         $element = Element::find($id);
-        if($element) {
-            $element->update($request->all());
-            return response()->json($element);
+        if (!$element) {
+            return response()->json(['message' => 'Elemento no encontrado'], 404);
         }
-        else {
-            return response()->json(['message' => 'Element not find'], 404);
-        }
+
+        $validated = $request->validate([
+            'title'         => 'required|string|max:255',
+            'description'   => 'nullable|string',
+            'classification'=> 'required|integer',
+            'image'         => 'nullable|string',
+            'category_id'   => 'required|integer|exists:categories,id',
+        ]);
+
+        $element->update($validated);
+        return response()->json($element);
     }
 
-     /**
-     * Se elimina un elemento
-     * @param int id
-     * @return \Illuminate\Http\JsonResponse
+    /**
+     * Elimina un elemento
      */
-    public function delete($id) {
-
+    public function destroy($id)
+    {
         $element = Element::find($id);
-        if($element) {
-            $element->delete();
-            return response()->json(['message' => 'Element deleted']);
+        if (!$element) {
+            return response()->json(['message' => 'Elemento no encontrado'], 404);
         }
-        else {
-            return response()->json(['message' => 'Element not find'], 404);
-        }
-        
+
+        $element->delete();
+        return response()->json(['message' => 'Elemento eliminado']);
     }
 }
