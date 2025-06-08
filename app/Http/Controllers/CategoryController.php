@@ -78,4 +78,33 @@ class CategoryController extends Controller
         }
         
     }
+
+    /**
+     * @authenticated
+     * @header Authorization Bearer {token}
+     * @bodyParam nombre string required
+     * @bodyParam descripcion string nullable
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title'      => 'required|string|max:255',
+            'icon' => 'nullable|string',
+        ]);
+
+        $category = $request->user()->categories()->create($request->only('title', 'icon'));
+
+        return response()->json($category, 201);
+    }
+
+    /**
+     * @authenticated
+     * @header Authorization Bearer {token}
+     */
+    public function index(Request $request)
+    {
+        $categories = $request->user()->categories()->get();
+
+        return response()->json($categories);
+    }
 }
