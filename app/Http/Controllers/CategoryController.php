@@ -7,105 +7,74 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-     /**
-     * Se obtienen todas las categorias
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function get() {
-
-        $categories = Category::all();
-        return response()->json($categories);
-    }
-
     /**
-     * Se obtiene una categoria por su id
-     * @param int id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getById($id) {
-
-        $category = Category::find($id);
-        if($category){
-            return response()->json($category);
-        }
-        else {
-            return response()->json(['message' => 'Category not find'], 404);
-        }
-    }
-
-    /**
-     * @bodyParam title string
-     * @bodyParam icon string
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function create(Request $request) {
-
-        $category = Category::create($request->all());
-        return response()->json($category, 201);
-    }
-
-     /**
-     * Se actualiza una categoria
-     * @bodyParam title string
-     * @bodyParam icon string
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(Request $request, $id) {
-
-        $category = Category::find($id);
-        if($category) {
-            $category->update($request->all());
-            return response()->json($category);
-        }
-        else {
-            return response()->json(['message' => 'Category not find'], 404);
-        }
-    }
-
-    /**
-     * Se elimina una categoria
-     * @param int id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function delete($id) {
-
-        $category = Category::find($id);
-        if($category) {
-            $category->delete();
-            return response()->json(['message' => 'Category deleted']);
-        }
-        else {
-            return response()->json(['message' => 'Category not find'], 404);
-        }
-        
-    }
-
-    /**
-     * @authenticated
-     * @header Authorization Bearer {token}
-     * @bodyParam nombre string required
-     * @bodyParam descripcion string nullable
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title'      => 'required|string|max:255',
-            'icon' => 'nullable|string',
-        ]);
-
-        $category = $request->user()->categories()->create($request->only('title', 'icon'));
-
-        return response()->json($category, 201);
-    }
-
-    /**
-     * @authenticated
-     * @header Authorization Bearer {token}
+     * Lista las categorías del usuario autenticado
      */
     public function index(Request $request)
     {
         $categories = $request->user()->categories()->get();
-
         return response()->json($categories);
+    }
+
+    /**
+     * Crea una nueva categoría para el usuario autenticado
+     * @bodyParam title string required
+     * @bodyParam icon string optional
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'icon'  => 'nullable|string',
+        ]);
+
+        $category = $request->user()->categories()->create($validated);
+        return response()->json($category, 201);
+    }
+
+    /**
+     * Muestra una categoría específica del usuario
+     */
+    public function show(Request $request, $id)
+    {
+        $category = $request->user()->categories()->find($id);
+        if (!$category) {
+            return response()->json(['message' => 'Categoría no encontrada'], 404);
+        }
+
+        return response()->json($category);
+    }
+
+    /**
+     * Actualiza una categoría del usuario autenticado
+     */
+    public function update(Request $request, $id)
+    {
+        $category = $request->user()->categories()->find($id);
+        if (!$category) {
+            return response()->json(['message' => 'Categoría no encontrada'], 404);
+        }
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'icon'  => 'nullable|string',
+        ]);
+
+        $category->update($validated);
+        return response()->json($category);
+    }
+
+    /**
+     * Elimina una categoría del usuario autenticado
+     */
+    public function destroy(Request $request, $id)
+    {
+        $category = $request->user()->categories()->find($id);
+        if (!$category) {
+            return response()->json(['message' => 'Categoría no encontrada'], 404);
+        }
+
+        $category->delete();
+        return response()->json(['message' => 'Categoría eliminada']);
     }
 }
