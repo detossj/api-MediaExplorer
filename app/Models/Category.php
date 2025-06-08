@@ -17,4 +17,9 @@ class Category extends Model
 
         return $this->hasMany(Element::class);
     }
+
+    public function user() { 
+        
+        return this->belongsTo(User::class);
+    }
 }
