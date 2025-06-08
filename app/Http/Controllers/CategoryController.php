@@ -22,7 +22,7 @@ class CategoryController extends Controller
      * @param int id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getById() {
+    public function getById($id) {
 
         $category = Category::find($id);
         if($category){
