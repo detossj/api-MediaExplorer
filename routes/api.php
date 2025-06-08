@@ -13,7 +13,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/profile', [AuthController::class, 'profile']);
+    Route::get('/profile', [AuthController::class, 'profile']);
 
     Route::get('/categories', [CategoryController::class, 'get']);
     Route::get('/categories/{id}', [CategoryController::class, 'getById']);
@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/elements/{id}', [ElementController::class, 'update']);
     Route::delete('/elements/{id}', [ElementController::class, 'delete']);
 
+    
 
 });
 
