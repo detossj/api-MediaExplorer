@@ -22,7 +22,7 @@ class ElementController extends Controller
      * @param int id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getById() {
+    public function getById($id) {
 
         $element = Element::find($id);
         if($element){
