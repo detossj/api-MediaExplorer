@@ -118,7 +118,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: June 8, 2025</li>
+        <li>Last updated: June 10, 2025</li>
     </ul>
 </div>
 
@@ -853,7 +853,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"title\": \"consequatur\",
-    \"icon\": \"consequatur\"
+    \"icon\": 17
 }"
 </code></pre></div>
 
@@ -871,7 +871,7 @@ const headers = {
 
 let body = {
     "title": "consequatur",
-    "icon": "consequatur"
+    "icon": 17
 };
 
 fetch(url, {
@@ -978,14 +978,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>icon</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
 <i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="icon"                data-endpoint="POSTapi-categories"
-               value="consequatur"
+                <input type="number" style="display: none"
+               step="any"               name="icon"                data-endpoint="POSTapi-categories"
+               value="17"
                data-component="body">
     <br>
-<p>optional Example: <code>consequatur</code></p>
+<p>optional Example: <code>17</code></p>
         </div>
         </form>
 
@@ -1433,7 +1433,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"title\": \"consequatur\",
     \"description\": \"Dolores dolorum amet iste laborum eius est dolor.\",
     \"classification\": 17,
-    \"image\": \"consequatur\",
+    \"image\": 17,
     \"category_id\": 17
 }"
 </code></pre></div>
@@ -1454,7 +1454,7 @@ let body = {
     "title": "consequatur",
     "description": "Dolores dolorum amet iste laborum eius est dolor.",
     "classification": 17,
-    "image": "consequatur",
+    "image": 17,
     "category_id": 17
 };
 
@@ -1584,14 +1584,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>image</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
 <i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="image"                data-endpoint="POSTapi-elements"
-               value="consequatur"
+                <input type="number" style="display: none"
+               step="any"               name="image"                data-endpoint="POSTapi-elements"
+               value="17"
                data-component="body">
     <br>
-<p>optional Example: <code>consequatur</code></p>
+<p>optional Example: <code>17</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>category_id</code></b>&nbsp;&nbsp;

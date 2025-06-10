@@ -267,15 +267,15 @@ endpoints:
         name: icon
         description: optional
         required: false
-        example: consequatur
-        type: string
+        example: 17
+        type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         custom: []
     cleanBodyParameters:
       title: consequatur
-      icon: consequatur
+      icon: 17
     fileParameters: []
     responses: []
     responseFields: []
@@ -473,8 +473,8 @@ endpoints:
         name: image
         description: optional
         required: false
-        example: consequatur
-        type: string
+        example: 17
+        type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: true
@@ -493,7 +493,7 @@ endpoints:
       title: consequatur
       description: 'Dolores dolorum amet iste laborum eius est dolor.'
       classification: 17
-      image: consequatur
+      image: 17
       category_id: 17
     fileParameters: []
     responses: []

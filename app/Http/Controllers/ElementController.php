@@ -30,7 +30,7 @@ class ElementController extends Controller
      * @bodyParam title string required
      * @bodyParam description string optional
      * @bodyParam classification integer required
-     * @bodyParam image string optional
+     * @bodyParam image integer optional
      * @bodyParam category_id integer required
      */
     public function store(Request $request)
@@ -39,7 +39,7 @@ class ElementController extends Controller
             'title'         => 'required|string|max:255',
             'description'   => 'nullable|string',
             'classification'=> 'required|integer',
-            'image'         => 'nullable|string',
+            'image'         => 'nullable|integer',
             'category_id'   => 'required|integer|exists:categories,id',
         ]);
 

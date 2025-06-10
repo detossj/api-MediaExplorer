@@ -23,13 +23,13 @@ class CategoryController extends Controller
      * @authenticated
      * @header Authorization Bearer {token}
      * @bodyParam title string required
-     * @bodyParam icon string optional
+     * @bodyParam icon integer optional
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'icon'  => 'nullable|string',
+            'icon'  => 'nullable|integer',
         ]);
 
         $category = $request->user()->categories()->create($validated);
