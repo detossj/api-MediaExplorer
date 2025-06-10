@@ -15,13 +15,19 @@ class ElementController extends Controller
     public function index(Request $request)
     {
         $userId = $request->user()->id;
-
+        $categoryId = $request->query('category_id');
+    
         $elements = Element::whereHas('category', function ($query) use ($userId) {
             $query->where('user_id', $userId);
-        })->get();
-
-        return response()->json($elements);
+        });
+    
+        if ($categoryId) {
+            $elements->where('category_id', $categoryId);
+        }
+    
+        return response()->json($elements->get());
     }
+    
 
     /**
      * Crea un nuevo elemento para el usuario autenticado
