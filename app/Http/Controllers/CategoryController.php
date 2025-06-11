@@ -7,6 +7,8 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
+    //METODO GET
+
     /**
      * Lista las categorías del usuario autenticado
      * @authenticated
@@ -17,6 +19,8 @@ class CategoryController extends Controller
         $categories = $request->user()->categories()->get();
         return response()->json($categories);
     }
+
+    //METODO POST
 
     /**
      * Crea una nueva categoría para el usuario autenticado
@@ -36,20 +40,7 @@ class CategoryController extends Controller
         return response()->json($category, 201);
     }
 
-    /**
-     * Muestra una categoría específica del usuario
-     * @authenticated
-     * @header Authorization Bearer {token}
-     */
-    public function show(Request $request, $id)
-    {
-        $category = $request->user()->categories()->find($id);
-        if (!$category) {
-            return response()->json(['message' => 'Categoría no encontrada'], 404);
-        }
-
-        return response()->json($category);
-    }
+    //METODO DELETE
 
     /**
      * Elimina una categoría del usuario autenticado
