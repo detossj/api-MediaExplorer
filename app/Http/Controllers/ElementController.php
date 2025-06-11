@@ -7,6 +7,9 @@ use App\Models\Element;
 
 class ElementController extends Controller
 {
+
+    //METODO GET
+
     /**
      * Lista todos los elementos del usuario autenticado
      * @authenticated
@@ -28,7 +31,7 @@ class ElementController extends Controller
         return response()->json($elements->get());
     }
     
-
+    //METODO POST
     /**
      * Crea un nuevo elemento para el usuario autenticado
      * @authenticated
@@ -54,6 +57,9 @@ class ElementController extends Controller
         return response()->json($element, 201);
     }
 
+
+    //METODO GET
+
     /**
      * Muestra un elemento específico del usuario
      * @authenticated
@@ -69,6 +75,8 @@ class ElementController extends Controller
         return response()->json($element);
     }
 
+
+    //METODO DELETE
     /**
      * Elimina un elemento del usuario autenticado
      * @authenticated
